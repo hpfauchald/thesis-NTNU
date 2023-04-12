@@ -1,0 +1,38 @@
+\chapter{Method}
+In comparison to previous conducted studies, we desire to bridge the research gap between emotion and personality detection and see how personality traits can be linked to the emotions applicants express in AVIs. In order to achieve this, we use different MSA models that predicts different emotion classes. We also conduct our own experiment including participants answering an AVI as well as a personality test. 
+
+%conceptual framework
+
+
+\section{Datasets}
+Throughout the years, several benchmark datasets have emerged and enabled fast progress in the MSA research area \cite{COGMEN_joshi-etal-2022-cogmen}.  Table \ref{tab:datasets} lists the datasets we use in this paper. \textit{Modalities} denotes the different modalities of A(coustic), V(isual), and T(ext) \cite{HP_RPP}. \textit{\#v} indicates the total number of video segments and \#s designates the total number of speakers. \textit{Sent} denotes whether or not the dataset contains sentiment annotations and \textit{Emo} denotes whether or not the dataset contains emotion annotations. \textit{TL} is the total length of the dataset. 
+%
+\begin{table}[h]
+\caption{Benchmark MSA datasets}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Name}} & \multicolumn{1}{c|}{\textbf{Year}} & \multicolumn{1}{c|}{\textbf{Modalities}} & \multicolumn{1}{c|}{\textbf{\#V}} & \multicolumn{1}{c|}{\textbf{\#S}} & \multicolumn{1}{c|}{\textbf{Sent}} & \multicolumn{1}{c|}{\textbf{Emo}} & \multicolumn{1}{c|}{\textbf{Lang}} & \multicolumn{1}{c|}{\textbf{TL (hh:mm:ss)}} \\ \hline
+ MELD \cite{meld_dataset} & 2019 & A + V + T  & 13 000 & Multi speaker & Yes & Yes & English & -  \\ \hline
+ CMU-MOSEI \cite{cmu-mosei_zadeh2018multimodal} & 2018  & A + V + T  & 23 500 & 1000 & Yes & Yes & English & 65:53:36   \\ \hline
+ IEMOCAP \cite{iemocap_dataset} & 2008 & A + V + T  & 10 000 & 10 & No & Yes & English & 11:28:12  \\ \hline
+\end{tabular}
+}
+\label{tab:datasets}
+\end{table}
+
+\subsection{MELD dataset}
+Multimodal EmotionLines Dataset (MELD) is an emotion recognition dataset for multi-party conversations \cite{meld_dataset}. It is an extension of the EmotionLines Dataset. The EmotionLines only contains textual data, but MELD includes their corresponding visual and audio counterparts. MELD contains approximately 1400 dialogues and 13 000 utterances from the popular sitcom called Friends. Each utterance is a part of a dialogue and 42\% of the utterances are shorter than five words. The dataset is annotated with emotion and sentiment labels. Each speech in a dialogue is labeled with one of the following emotions: Anger, Disgust, Sadness, Joy, Neutral, Surprise, and Fear. In addition, all utterances are assigned a sentiment (positive, negative, neutral). 
+
+\subsection{CMU-MOSEI dataset}
+CMU Multimodal Opinion Sentiment and Emotion Intensity (CMU-MOSEI) is the largest dataset of sentence level sentiment analysis and emotion recognition in online videos \cite{MSA_review2_GANDHI2023424} \cite{cmu-mosei_zadeh2018multimodal}. Videos are collected from YouTube, and the total length of the dataset is over 65 hours. Out of 3228 videos, there are 23 453 annotated data points from 1000 distinct speakers covering 250 subjects. Each video segment contains manual transcription aligned with audio to phoneme level. The sentences are assigned sentiment annotations ranging from [-3, 3] and emotions labels (i.e., Happy, Sad, Neutral, Angry, Excited, Frustrated). CMU-MOSEI includes various topics where the most frequent topics are reviews, debate, and consulting. 
+
+\subsection{IEMOCAP dataset}
+Interactive emotional dyadic motion capture database (IEMOCAP) is a widely used dataset for performing emotion recognition tasks \cite{iemocap_dataset}. It consists of 10 000 segments of audiovisual data, including speech, facial expression and hand gestures, and text in dyadic conversations. IEMOCAP is captured from 10 different actors that perform fictitious conversations to elicit different emotions including Happy, Sad, Angry, Fear, Disgust, and Surprise. In addition, this dataset uses continuous attribute based annotations such as activation, valence and dominance. Both these annotations methods are assigned each utterance in a conversation. The total length of IEMOCAP is just under 12 hours. 
+
+\section{Experiment}
+The experiment consists of two parts: One is a video interview where participants record themselves answering interview questions. The other part is to answer a personality questionnaire based on the Big-Five model. These two parts are separate tasks, meaning that the interview and personality test can be taken in any order preferred by the entrant. 
+
+\subsection{Video interview}
+In the video interview, we desire to simulate how companies conduct their AVIs in real life. Therefore, the AVI design is thoroughly deliberated before participants pursue the experiment. Table \ref{} shows our AVI design. Experiment introductions and interview questions are presented in written format which makes it easy to provide the same information to all participants. The experiment instructions are found in Appendix \ref{}. This information sharing reduces media richness, meaning that observers will lack the perception of social presence. However, providing rich media features that seamlessly mimic a live interview is challenging when an AVI platform is not used. There is no question timers in the interview, but it is implied that each participant uses a reasonable amount of time to understand the questions. When it comes to the response preparation time, we chose to let the observers view the questions right before the recording happened. The reason for this choice, is because people tend to express more emotions in the behavioral cues such as visual and audio if the preparation time is small. For example, when a person have to improvise a question answer, they become more expressive in their face showing gestures like frowns and smiles, and it affect their audio cues where they take pauses, strain, or their voices shake. In addition, the low time to prepare an answer automatically provides an overview of the candidates' communication skills. Nevertheless, there are two major disadvantages with this response formatting feature which can lead to negative applicant outcomes. First, this setting is associated with a perception of low fairness meaning that the participants become unmotivated to complete the interview. Second, people with poorer communication skills will give responses of mediocre quality. As the text is the most important modality in MSA, the performance of MSA models will be negatively affected. Consequently, we need to make sure each observer produces good responses on the interview questions. To mitigate the aforementioned downsides, we permit interviewees the ability to re-record their responses up to three times allowing them to choose their best recorded performance for submission. We have not set any time cap for the candidate to complete the interview. However, we stated that they were supposed to complete the interview in one go reducing the risk of people prepare their answers in the time between the responses. 
