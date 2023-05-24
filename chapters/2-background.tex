@@ -9,7 +9,7 @@ Figure \ref{fig:msa_process} illustrates the process of sentiment analysis by fu
 %
 \begin{figure}[h]
   \centering
-  \includegraphics[width=1.0\textwidth]{figures/msa_process.png}
+  \includegraphics[width=\textwidth]{figures/msa_process_dpi.png}
   \caption{MSA process.}
   \label{fig:msa_process}
 \end{figure}
@@ -30,6 +30,97 @@ The most critical activity of MSA is fusion of multiple modalities. Fusion is th
     \item \textbf{Quantum based fusion}: In this method, quantum inference is used to capture the interactions within each utterance (i.e. correlations between different modalities). Additionally, quantum measurement is used to build a strong-weak influence model to find the interactions between consecutive utterances (i.e. how one speaker is influenced by another). Quantum based fusion also utilizes decision-level or early fusion techniques \cite{MSA-review-3-9686504}. 
     \item \textbf{Word level fusion}: This method investigates the interplay between different modalities in order to establish a superior sentiment tendency. Transformer is used to learn joint representations for utterances and to translate across different modalities \cite{MSA_review2_GANDHI2023424}. 
 \end{itemize}
+
+\section{Deep learning models}
+Deep learning models for emotion recognition are utilized in this research. A deep neural network (DNN) comprises an input, output, and a set of hidden layers with multiple nodes or neurons. For each layer $l$ in the network, the output layer is computed as follows:
+%
+\begin{equation*}
+    h^{l} = f(W^{l} \cdot h^{l-1} + b^{l}),\tag{1}
+\end{equation*}
+%
+where $W^{l}$ is the weight matrix connecting the $l-1$th to the $l$th layer. $b^{l}$ is the bias for the $l$th layer, and $f$ is the non-linear activation function (e.g. sigmoid, hyperbolic tangent, rectified linear unit (ReLU), etc.). The output of the last layer $y^{L}$ is the output of the last activation function:
+%
+\begin{equation*}
+    y^{L} = f(W^{L} \cdot h^{L-1} + b^{L}). \tag{2}
+\end{equation*}
+%
+The linear transformation in each layer can be expressed as a matrix multiplication:
+%
+\begin{equation*}
+    W^lh^{l-1} = W^l {*} h^{l-1},\tag{3}
+\end{equation*}
+%
+where $*$ denotes matrix multiplication and $h^{l-1}$ is the output of the previous layer. Weights and biases are adjusted usually using backpropagation during training. The backpropagation is an expression for the partial derivative $\frac{\partial C}{\partial w}$ of the cost function C with respect to any weight w (or bias b ) in the network \cite{cross_cultural}. The quadratic cost function can be defined as:
+%
+    \begin{equation*} C = \frac {1}{2n}\sum _{x}^{} \left \|{ y(x) - \alpha ^{L}(x) }\right \|^{2},\tag{4}\end{equation*}
+%
+where $n$ is the total number of training examples, $x$ is the training samples, $y=y(x)$ is the corresponding desired output, $L$ denotes the number of layers in the network, and $\alpha ^{L} = \alpha ^{L}(x)$ is the vector of activations output from the network when $x$ is input.
+
+\subsection{Convolution Neural Networks}
+Convolutional Neural Networks consist of multilayers of fully connected layers. That means, each neuron in the network is connect to all neurons in the next layer. The first layer of the network is called the convolutional layer. It applies a set of filters to the input data. Each filter is a small window of weights that is convolved with the input data to produce a feature map. The operation of 2-dimensional convolution can be represented as:
+%
+\begin{equation*}s(i,j)=(I*K)(i,j)=\sum \limits _{l}{\sum \limits _{m}{I(l,m)K(i+l,j+m)}},\tag{5}\end{equation*}
+%
+where I is a two-dimensional input matrix, and K is a two-dimensional kernel matrix. s denotes the resulting feature map after the convolution.
+
+\subsection{Graph Neural Networks}
+A Graph Neural Network is used to operate graph-structured data. A GNN model consists of a graph $G$ with $N$ nodes and an adjacency matrix $A$ that represents the edges between nodes. Each node $i$ has an associated feature vector $xi$ with dimension $D$, and the output of the GNN for node $i$ is denoted as $yi$. A linear transformation is applied to each node's feature vector to produce a hidden state vector $hi$:
+%
+\begin{equation*}
+    hi = Wxixi,\tag{6}
+\end{equation*}
+%
+where $W$ is the weight matrix for the linear transformation. The hidden state vectors of the neighbouring nodes are aggregated using the following message passing function:
+%
+\begin{equation*}
+    mi = {\sum \limits _{j}} Ajihj,\tag{7}
+\end{equation*}
+%
+where $mi$ is the message node j to node i, and $Aj$ is the element of the adjacency matrix representing the edge between node $j$ and $i$. Next, the message is passed through a non-linear activation function $f$:
+%
+\begin{equation*}
+    mi = f(mi).\tag{8}
+\end{equation*}
+%
+The aggregated message for node $i$ is then combined with the hidden state of the node to produce a new hidden state as shown in Equation \ref{eq:new_hidden}.
+%
+\begin{equation*}
+    \label{eq:new_hidden}
+    hi' = f(Wxihi + mi) \tag{9}
+\end{equation*}
+%
+To allow for information propagation between nodes in the graph, this process can be repeated multiple times. Final output of the GNN for each node can be computed by applying another linear transformation to the final hidden state as follows:
+%
+\begin{equation*}
+    yi = W'hi,\tag{10}
+\end{equation*}
+%
+where $W'$ is the weight matrix for the output transformation. Similar to a DNN, the parameters of the GNN are altered using backpropagation to minimize the loss function.
+
+\subsection{Transformers}
+The use of transformers have improved the performance of natural language processing tasks. In contrast to recurrent neural networks (RNN) and CNNs which operate on sequences of input data, transformers can process sequences of various length. There are two main components which constitutes the transformer architecture: the encoder an the decoder. Both components are composed of multiple layers of self-attention and feed-forward neural networks \cite{transformers1-vaswani2017attention}. Self-attention is a mechanism that allows the model to weigh the importance of different elements in the input sequence. It computes a weighted sum of the input sequence elements, where the weights are determined by the similarity between query, key, and value vectors.  The self-attention mechanism can be expressed as shown in Equation \ref{eq:transformers}.
+%
+\begin{equation*}
+    \label{eq:transformers}
+    \text{Attention}(Q,K,V) = \text{softmax}(\frac{QK^{T}}{\sqrt{d_{k}}})V,\tag{11}
+\end{equation*}
+%
+where Q, K, and V are the query, key, and value matrices, respectively. $d_{k}$ denotes the dimensionality of the key vectors. The softmax function is utilized to ensure attention weights sum to one. In the encoder, the input sequence is fed through the self-attention layer and the feed-forward layer. The output of each layer is then passed to the next. Output of the encoder can be represented as follows:
+%
+\begin{equation*}
+    \text{Encoder}(x)=\text{LayerNorm}(x + \text{SelfAttention}(x) +\text{FeedForward}(x)),\tag{12}
+\end{equation*}
+%
+where $x$ is the input sequence and the  LayerNorm function is used to normalize the output of each layer. For the decoder, the self-attention layer is modified to include an additional attention mechanism that allows the decoder to attend the encoder's output. This method is referred to as encoder-decoder attention. The decoder output can be expressed mathematically as:
+%
+\begin{equation*}
+    \resizebox{0.9\hsize}{!}{$%
+    \text{Decoder}(y, \text{Encoder}(x)) = \text{LayerNorm}(y + \text{SelfAttention}(y) + \text{EncoderDecoderAttention}(y, \text{Encoder}) + \text{FeedForward}(y)),\tag{13}
+    $}%
+\end{equation*}
+%
+where $y$ is the input sequence in the decoder and the EncoderDecoderAttention function calculates the attention weights between the decoder input sequence and the encoder output sequence. 
+
 
 \section{The use of video interviews in e-recruitment}
 As young people are staying in education longer than ever, they become very attractive in the labour market. Everyone desires to get their dream job, and selecting the best candidates that fit well with the job-description is essential to meet the employer's expectations. Like every other aspect with business today, the hiring process depends on speed and accuracy \cite{hiring-process-Sołek-BorowskaWilczewska+2018+25+33}. The job market has become more competitive due to an increasing number of highly relevant candidates competes against a decreasing pool of jobs. Additionally, the selection process is relatively short meaning that the hiring managers have to precisely choose the most suited candidates. The integration of both software and hardware in the HR sector is an emerging trend to keep up with the speed of recruitment and selection. Technologies such as Big Data, Internet of Things, Deep Learning, Machine Learning, and Artificial Intelligence have impact on the HR industry \cite{robotic-process-nawaz2019robotic}. Hiring managers rely on automated systems to help them assess candidates at a fast pace. Some automated systems include  applicant tracking systems \cite{ATS2015} where the system can view your resume and collect keywords to see how well you fit with the job description, surveys \cite{ONEILL2013162} in order to assess your behaviours at the workplace, and automated video interviews \cite{Chen2017_video_interview} in order for the corporation to get to know your communication skills.   \\
@@ -94,20 +185,39 @@ One crucial aspect with AVIs is their design \cite{video-interview1-LUKACIK20221
 Everyone desires to get their dream job. Either it is as a developer, teacher, accountant, etc., the common aspect to these fields is that to acquire the positions, the candidates have to go through a challenging hiring process. As the job market is becoming more competitive and the hiring process to fill job positions is relatively short, recruiters rely on automatic systems to help them extract candidates that fit well with the job description. Some of the automated systems include applicant tracking systems \cite{ATS2015}, surveys \cite{ONEILL2013162}, and automated video interviews \cite{Chen2017_video_interview}. The latter is an essential stage of the recruitment process because this is your chance to showcase your communication skills as well as nonverbal cues such as facial expression, body language, and paralanguage so the recruiters can assess your personality. The candidate's personality is among the top three factors companies look for in employment and in some cases personality is ranked above both education and appearance \cite{important_personality}. \\ 
 \end{comment}
 
+\section{Emotions}
+Emotions are intrinsic to humans and guide their behavior and are indicative of the underlying thought process \cite{emotions1-minsky2007emotion}. It is a psychological state involving three distinct components working together: a subjective experience, a physiological response, and a behavioral response \cite{emotions2-LEDOUX201867}. These aspects work together to create what people experience as emotions. Subjective experience refers to how you as an individual perceive an event, regardless of how it is objectively occurring. The physiological part of emotion is how the body actually responds to an experience. Lastly, the behavioral response is how an emotion is expressed. In affective science, researchers have attempted to classify emotions in discrete categories, leading to several models and theories \cite{cross_cultural}. Emotion classification models can be divided into two basics: emotions that are discrete and based on a dimensional basis. Discrete emotion theory suggests there is a set of core emotions. The study presented by Tomkins \cite{emotions3-tomkins1962affect} propose eight basic emotions as surprise, interest, joy, rage, fear, disgust, shame, and anguish. These emotions are considered universal to all cultures. This is supported by Charles Darwin. He believed all humans displayed similar emotions and the evolutionary history of emotion could be traced across cultures and different species \cite{emotions4-darwin1998expression}. Darwin's theory was tested by Paul Ekman. He used pictures depicting various emotions for other people to match the emotional term to each photo. Results showed that participants were able to identify these discrete emotions (happiness, surprise, anger, disgust, sadness, and fear) which suggests the validity of universal emotions \cite{emotions5-ekman1999basic}. However, there is a disadvantage with the study. All of the participants came from cultures that had access to other cultures and facial expressions through medias such as television, movies, and magazines. They could have learned to recognize emotions from learning about them through these medium meaning that the emotions were not expressed naturally in their culture. Therefore, he tested a pre-literate hunter gatherer culture in Papua New Guinea \cite{emotions6-ekman1993facial}. This group was isolated and had no access to western influences and very few chances for interactions with other cultures. The study suggested that people of Papua New Guinea were able to identify the emotions which would confirm the universal emotion theory. 
+
+Dimensional emotion theory postulates that emotions have two or more dimensions such as valence, arousal, and dominance, etc. These models include the PANA model \cite{emotions7-watson1985toward}, the Circumplex model \cite{emotions8-russell1980circumplex}, the PAD emotional state model \cite{emotions9-mehrabian1995framework}, and Plutchick’s model \cite{plutchik_model}. Plutchik's wheel of emotions which is a three-dimensional hybrid of both basic and complex categories. The eight sectors indicate that there are eight primary emotions: anger, anticipation, joy, trust, fear, surprise, sadness, and disgust. The color scheme indicates the combinations and their intensity. For example, a white color represents a mix of two emotions and a darker shade designates a more intense emotion \cite{HP_RPP}.
+
 \section{Big-five model}
-Researchers have for several decades applied methods to develop a personality taxonomy that describes personality traits \cite{personality_goldberg_1990}. One of the most known psychology theory is the big five personality traits. This model is the result of the work conducted by researchers including Fiske \cite{fiske1949consistency}, Norman \cite{norman19672800}, Smith \cite{smith1967usefulness}, Goldberg \cite{goldberg1981language}, and McCrae and Costa \cite{mccrae1987validation}. The five basic dimensions of personality are - Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism. 
+Researchers have for several decades applied methods to develop a personality taxonomy that describes personality traits \cite{personality_goldberg_1990}. One of the most known psychology theory is the Big Five personality traits. This model is the result of the work conducted by researchers including Fiske \cite{fiske1949consistency}, Norman \cite{norman19672800}, Smith \cite{smith1967usefulness}, Goldberg \cite{goldberg1981language}, and McCrae and Costa \cite{mccrae1987validation}. The model has a five factor structure outlining the composition of human personality. These factors can be remembered by their acronym ''OCEAN'' - Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism. The model can be viewed as a hierarchical structure with the Big-Five factors at the top of the hierarchy, below which are located the lower-level ''facets'' that are measured by particular narrow-bandwidth personality measures \cite{Bandwidth-goldberg1999broad}. The traits are not absolute, meaning they are placed on a continua between two extreme poles. In addition, it stated that Big Five is applicable across cultures, genders, and ages \cite{big-five-john1999big}.  
 %
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.5\textwidth]{figures/big-5-personality.jpeg}
-  \caption{The big five personality traits. [17]}
+  \includegraphics[width=\textwidth]{figures/big-5-personality.jpeg}
+  \caption{The big five personality traits. [43]}
   \label{fig:big5}
 \end{figure}
 %
-Since the model's dimensions are broad, it covers all personality traits aspects. As shown in Figure \ref{fig:big5} \cite{big5-image}, the big five  represent the personality traits as a spectrum where it identifies what is considered a low and high score for each trait. Based on job performance, according to \cite{best_trait}, the best personality trait is conscientiousness. A person with a high score in conscientiousness has knowledge, good leadership skills, and is more desired to learn.
+As shown in Figure \ref{fig:big5} \cite{big5-image}, the big five  represent the personality traits as a spectrum where it identifies what is considered a low and high score for each trait.
+
+Openness is refers to being intellectually curious, innovative, tend to appreciate art and beauty. They also like theories that explains how things work, tend to be more adventurous, imaginative, aware of their feelings and have a high level of insight as well as being attracted to the idea of abstract thinking \cite{big-five-john1999big}. A person that is high on openness uses a lot of time in their imagination fantasizing and being creative. Additionally,  openness is characterized tend to dislike routine. They are flexible and tend to persevere certain tasks. These characteristics are generally considered positive for a workplace environment. Individuals with a high score in this trait are more often promoted to leadership positions than those who have a low in openness. Openness is fairly stable over time although it shows to increase as people grow older. People with low score in openness dislike change and like routines. They make safe decisions and have low tolerance for a lot of varying ideas. In addition, they have a restricted range of interest meaning a lower levels of intellectual curiosity. Openness is associated with expressing a mixture of positive and negative emotions \cite{openness1-BARFORD2016118}. From a language perspective, people who use articles in their texts (e.g. words such as ‘the’, ‘an’ and ‘a’), indicate that those who use more articles are highly intellectual and open to experience \cite{openness2-fast2008personality}.  
+
+Conscientiousness is the trait of being conscientious and is the tendency to be able to control impulses and plan out activities carefully. They prioritize well, are organized, and are good at analyzing situations. They thin through situations carefully and tend to have good orientation toward detail \cite{big-five-john1999big}. They like a set schedule and they tend to be considered prudent. Individuals who are high in conscientiousness are reliable and is one of the biggest reasons employers favor a high score in this trait. Generally, they are considered higher performing employers. Also, they tend to be more successful in term of their career. They tend to have a lot of self-discipline, less negative interaction with the criminal justice system. They tend to do better in school and in general are more concerned with appearances. Their work environments tend to be more organized and clean. They are also concerned how others will perceive that. There are many desirable outcomes that occur as a result of being conscientious. At the other side of the spectrum, a person with low conscientiousness is more likely to be disorganized and act on impulses. Conscientiousness is associated with positive emotions. In self-narratives, people with high score in conscientiousness tend to discuss achievements more than people with a low score \cite{conscientiousness1-HIRSH2009524}. This trait seems to go down in adolescence and tends to increase from that point on as individuals grow older. 
+
+The extroversion trait entail where somebody gets their energy from and how much stimulation the need to be functional. Someone who is high in extroversion tends to get their energy from social interactions and social relationships \cite{big-five-john1999big}. They like to be the center of attention. They tend to be more talkative. They tend to have many acquaintances but not many close friends and sometimes they struggle with deep analysis. A lower score in this trait, referred to as introvert, has many close friends but not many acquaintances. They do not get energy from social interactions but rather drain energy from introverts. They like being alone, having quiet time and thinking. Extraversion is connected with positive affect and uses more positive words in their language compared to introverts \cite{extraversion1-komulainen2014effect} \cite{extraversion2-pennebaker1999linguistic}. However, it is not stated that introverts express negative emotions. Behaviors such as shyness and sadness is often incorrectly connected with introverts. For example, introverts may not reach out and initiate contact with people but be friendly if someone approached them. When it comes to the work environment, a person with high score on extraversion is linked to leadership roles because extroverts tend to be more assertive individuals and they are more likely to put themselves in that dominant position and take charge.  
+
+Agreeableness is a trait where you have an increased amount to care for other people, taking an interest in other people. They tend to have a higher degree of empathy, both cognitive and affective empathy. They tend to look for ways to compromise and generally someone who is agreeable is friendly. On the other side of the spectrum, someone who is disagreeable is more competitive and have lower interest in other people. They have a lower degree of empathy and are generally skeptical of people's motives. This can result in an individual being not liked because they appear suspicious and unfriendly. These traits have advantages in certain places. Therefore, agreeableness is associated with higher positive emotions and lower negative effect \cite{personality_emotions_link}. 
+
+Neuroticism is characterized by emotional dysregulation or high emotional reactivity. Someone who scores high in neuroticism would have a more negative response to frustration. It is also a tendency to experience negative feelings in particular anger, frustration, anxiety and fear. Self-esteem is usual an issue for individuals when they are high in neuroticism. With a high score follows certain risks including physical an mental health problems, feeling low satisfaction, and poor work performance. With low score of neuroticism is emotional stability and not being upset as easily. They tend to experience and express fewer negative feelings. However, a low score does not indicate more positive emotions but as compared to extraversion. Neuroticism tends to decrease as individuals grow older. If a person with high neuroticism has high conscientiousness, the person can channel their anxiety in a productive way. 
+
+
+
+%Based on job performance, according to \cite{best_trait}, the best personality trait is conscientiousness. A person with a high score in conscientiousness has knowledge, good leadership skills, and is more desired to learn.
 
 \section{COGMEN}
-The Contextualized Graph neural network based Multimodal Emotion recognition (COGMEN) model focuses on exploiting contextual information, inter-speaker and intra-speaker relations in a conversation setting \cite{COGMEN_joshi-etal-2022-cogmen}. This means that the framework addresses key concepts to capture emotions in a conversation: It leverages the overall context in the dialogue referred to as the global information. Also, it utilizes the local information stored in the conversations to monitor the emotion expressed by each speaker and create relations between the syllables. In essence, COGMEN is made up of four different modules that are responsible of predicting the emotion of an input utterance. The first module is called Context Extractor. Each input utterance consist of concatenated features from visual, acoustic, and textual modalities. The Context Extractor utilizes a transformer encoder in capturing the global information from each input utterance. With newly established context features, these attributes are fed into the second module, Graph Formation. This unit forms the features to a graph where each statement act as a node of the graph and they are connected using directed relations. Here, there exist two type of relations: relation between utterances by the same speaker (intra-relations) and relations between utterances from different speakers (inter-relations). Next, the third model is Relational GCN and GraphTransformer. The RGCN uses the graph as input to capture intra-speaker and inter-speaker dependencies. Then, the GraphTransformer supplements the RGCN by extracting rich representations from the node features by considering nodes that are connected via edges. Last, the fourth module is the Emotion Classifier. Based on features extracted in the previous step, a linear classifier is utilized to predict the emotion for each utterance.
+The Contextualized Graph neural network based Multimodal Emotion recognition (COGMEN) model focuses on exploiting contextual information, inter-speaker and intra-speaker relations in a conversation setting \cite{COGMEN_joshi-etal-2022-cogmen}. This means that the framework addresses key concepts to capture emotions in a conversation: It leverages the overall context in the dialogue referred to as the global information. Also, it utilizes the local information stored in the conversations to monitor the emotion expressed by each speaker and create relations between the syllables. In essence, COGMEN is made up of four different modules that are responsible of predicting the emotion of an input utterance. The first module is called Context Extractor. Each input utterance consist of concatenated features from visual, acoustic, and textual modalities. The Context Extractor utilizes a transformer encoder in capturing the global information from each input utterance. With newly established context features, these attributes are fed into the second module, Graph Formation. This unit forms the features to a graph where each statement act as a node of the graph and they are connected using directed relations. Here, there exist two type of relations: relation between utterances by the same speaker (intra-relations) and relations between utterances from different speakers (inter-relations). Next, the third model is Relational GCN and GraphTransformer. The RGCN uses the graph as input to capture intra-speaker and inter-speaker dependencies. Then, the GraphTransformer supplements the RGCN by extracting rich representations from the node features by considering nodes that are connected via edges. Last, the fourth module is the Emotion Classifier. Based on features extracted in the previous step, a linear classifier is utilized to predict the emotion for each utterance. 
 
 
 

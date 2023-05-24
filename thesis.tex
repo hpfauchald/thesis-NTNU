@@ -1,10 +1,13 @@
 \documentclass[british,titlepage]{ntnuthesis}
+\usepackage[super]{nth} % Added by hp
+\usepackage{xspace} % Added by hp
 
-\title{Multimodal Sentiment Analysis and Emotion Recognition for Personality Prediction}
-\shorttitle{An NTNU Thesis Document Class}
+\title{Emotions don't lie: A multimodal approach to Personality Prediction}
+\shorttitle{A multimodal approach to Personality Prediction}
 \author{Hans Petter Fauchald Taralrud}
-\shortauthor{hptaralr}
+\shortauthor{H.P.F. Taralrud}
 \date{01.06.2023}
+
 
 \addbibresource{thesis.bib}
 
@@ -18,7 +21,7 @@
 \tableofcontents
 \listoffigures
 \listoftables
-\lstlistoflistings
+%\lstlistoflistings
 
 \printglossary[type=\acronymtype] % Print acronyms
 \printglossary                    % Print glossary
@@ -28,8 +31,7 @@
 \input{chapters/3-related.tex}
 \input{chapters/4-method.tex}
 \input{chapters/5-results.tex}
-\input{chapters/6-discussion.tex}
-\input{chapters/7-conclusion.tex}
+\input{chapters/6-conclusion.tex}
 
 \chapter*{\bibname}
 \printbibliography[heading=none]
