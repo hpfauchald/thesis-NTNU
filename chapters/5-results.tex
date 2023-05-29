@@ -1,4 +1,5 @@
 \chapter{Results and Discussion}
+\label{chap:results}
 The results and analysis is presented in this chapter. Section \ref{sec:performance_evaluation} presents the performance evaluation of COGMEN on MELD, IEMOCAP, and CMU-MOSEI, whereas results on personality prediction are described in Section \ref{sec:results_personality}. Section \ref{sec:emotion_distribution_analysis} and onwards entail the discussion and analysis of emotion distribution and personality prediction. Lastly, Section \ref{sec:current_limitations} presents current limitation with the work conducted in this study. 
 
 \section{Results from Performance evaluation}
@@ -20,6 +21,8 @@ Table \ref{tab:MELD-results} showcases the results of COGMEN on the MELD dataset
     \label{tab:MELD-results}
 \end{table}
 %
+
+
 Experiments were performed on the IEMOCAP dataset for six emotion classes on multimodal setting \cite{HP_Advanced}. The results are showed in Table \ref{tab:IEMOCAP-results}. IEMOCAP achieves best weighted F1 score on the Sad emotion (80.4 \%). In addition, the poorest performance emotion is Happy (53.2\%).
 %
 \begin{table}[h]
@@ -37,7 +40,7 @@ Experiments were performed on the IEMOCAP dataset for six emotion classes on mul
     \label{tab:IEMOCAP-results}
 \end{table}
 %
-For CMU-MOSEI, emotion classification across six emotion classes is performed using the Binary Classification setting \cite{COGMEN_joshi-etal-2022-cogmen}. The results on CMU-MOSEI are presented in Table \ref{tab:CMU-MOSEI-results}. COGMEN performs well on every emotion label where the best weighted F1 score is for the Fear label (88.1\%). The poorest score is for the Happy label, with a F1 of 70.2 \%. 
+For CMU-MOSEI, emotion classification across six emotion classes is performed using the Binary Classification setting \cite{COGMEN_joshi-etal-2022-cogmen}. The results on CMU-MOSEI are presented in Table \ref{tab:CMU-MOSEI-results}. COGMEN performs well on every emotion label where the best weighted F1 score is for the Fear label (88.1\%). The lowest score is for the Happy label, with a F1 of 70.2 \%. 
 %
 \begin{table}[h]
     \caption{Results on the CMU-MOSEI dataset (6-emotion class). Avg. denotes the weighted average.}
@@ -73,7 +76,7 @@ CMU-MOSEI & 75.9 & 76.2 \\ \hline
 \end{table}
 %
 \\
-With the presented results in this section, it seems natural to select CMU-MOSEI for training the AVI dataset given the performance. However, there are several reasons why the AVI dataset is trained on IEMOCAP in a mulimodal setting. First, following the work presented in \cite{cmu-mosei_zadeh2018multimodal}, it was impossible to extract visual features as FaceNet 2.0 is not open-source. Therefore, the feature extraction pipeline was created obeying IEMOCAP procedure. Second, the most important reason was that CMU-MOSEI does not have neutral label for the 6-emotion class. As the neutral emotion is essential for predicting the likelihood of certain personality traits, IEMOCAP was used. 
+With the presented results in this section, it seems natural to select CMU-MOSEI for training the AVI dataset given the performance. However, there are several reasons why the AVI dataset is trained on IEMOCAP in a multimodal setting. First, following the work presented in \cite{cmu-mosei_zadeh2018multimodal}, it was impossible to extract visual features as FaceNet 2.0 is not open-source. Therefore, the feature extraction pipeline was created obeying IEMOCAP procedure. Second, the most important reason was that CMU-MOSEI does not have neutral label for the 6-emotion class. As the neutral emotion is essential for predicting the likelihood of certain personality traits, IEMOCAP was used. 
 
 
 \section{Results on personality prediction}
@@ -125,12 +128,12 @@ It was observed in Figure \ref{fig:emotion_distribution} that the emotion distri
 \end{figure}
 %
 %
-\begin{itemize}
-    \item[] Q1: What motivates you? What are you passionate about?
-    \item[] Q2: Not everyone agrees all the time. Have you had a peer, teammate or friend disagree with you? What did you do?
-    \item[] Q3: Give an example of a time you have gone over and above to achieve something. Why was it important for you to achieve this?
-    \item[] Q4: Sometimes things don’t always go to plan. Describe a time when you failed to meet a deadline or personal commitment. What did you do? How did that make you feel? 
-\end{itemize}
+\begin{enumerate}
+    \item What motivates you? What are you passionate about?
+    \item Not everyone agrees all the time. Have you had a peer, teammate or friend disagree with you? What did you do?
+    \item Give an example of a time you have gone over and above to achieve something. Why was it important for you to achieve this?
+    \item Sometimes things don’t always go to plan. Describe a time when you failed to meet a deadline or personal commitment. What did you do? How did that make you feel? 
+\end{enumerate}
 %
 As stated in Section \ref{sec:video_interview}, these questions are based on past behavior, situational judgement, and their nature will oblige candidates to express various emotions. As can bee seen from Figure \ref{fig:emotion_transition_questions}, for Q1, excited and neutral are the most dominating traits. Q2 and Q4 unveil most negative affect in applicants, where sad is most expressed. Although Q3 is associated with a positive experience, the trend is that candidates deliberate negative emotions (i.e. sad, and frustrated). The reason could be that applicants reflect on the process and share how they felt facing that problem. It is interesting to note that the candidates who score high in conscientiousness (e.g. P2, P4, and P6) exhibits much neutral emotion when discussing accomplishments (Q1 and Q3). This supports the research that people who are conscientious tend to discuss achievements more than people with low in conscientiousness \cite{conscientiousness1-HIRSH2009524}. In addition, this confirms that the neutral emotion can be used to predict the likelihood of a candidate's level of conscientiousness. 
 
@@ -151,7 +154,7 @@ Given the lack of emotion labels for the AVI dataset, the predicted emotion dist
 \label{tab:correlation_analysis}
 \end{table}
 %
-As can be seen from Table \ref{tab:correlation_analysis}, there is a high correlation between COGMEN and bc-LSTM as well as for COGMEN-DialogueRNN. However, COGMEN--DialogueRNN have a slightly poorer correlation than COGMEN--bc-LSTM. A possible reason for this is that DialogueRNN have lesser performance on IEMOCAP compared to bc-LSTM. When that is said, all three MSA models reflect the same emotion distribution from the AVIs. This means that predicted behavioral traits remain the same independently of MSA model. As a result, this analysis validates COGMEN's emotion prediction in the study. 
+As can be seen from Table \ref{tab:correlation_analysis}, there is a high correlation between COGMEN and bc-LSTM as well as for COGMEN-DialogueRNN. However, COGMEN--DialogueRNN have a slightly lower correlation than COGMEN--bc-LSTM. A possible reason for this is that DialogueRNN have lesser performance on IEMOCAP compared to bc-LSTM. When that is said, all three MSA models reflect the same emotion distribution from the AVIs. This means that predicted behavioral traits remain the same independently of MSA model. As a result, this analysis validates COGMEN's emotion prediction in the study. 
 
 \section{Findings concerning RQ's}
 Following the detected personality traits by the proposed model and the analysis of results presented in previous subsections, for (RQ1), it is safe to assume that MSA can assist in predicting personality traits from the Big Five taxonomy. By examining the emotion expressed by participants and comparing with the validation criteria, the model performs well in predicting the three strongest traits in candidates. It is still difficult to say to what extent, as this research is exploring one working domain as well as the number of participant is far less than for any statistically significant observations. (RQ2) The emotion distribution in an interview is the most essential parameter to analyze in order to predict human attributes. However, in the case of this study, sad, neutral, excited, and frustrated are the most relevant emotions for personality classification, whereas happy and angry were hardly expressed by the interviewees. (RQ3) In fact, it was observed that sentiments are useful in personality prediction. Since the findings conveyed that no emotions were directly linked to each distinct personality trait, the distribution of positive and negative sentiments is convenient when predicting human attributes. (RQ4) Especially agreeableness and extraversion are difficult to predict based on MSA in an AVI setting. The former has a relationship to positive emotions as well as a correlation to conscientiousness. The latter is also associated with positive effect and therefore challenging to distinguish from agreeableness. Additionally, the interview setting fails to capture the characteristics of extraversion, because the applicants are only leading a one-sided conversation. Extraversion, in particular, is easier to predict in other recruitment activities such as group interviews and during assessment centres. (RQ5) It was observed that people from the informatics domain score high in conscientiousness and agreeableness. The lowest trait in the candidates is neuroticism, whereas extraversion and openness seem to vary between applicants. 
@@ -161,11 +164,13 @@ Following the detected personality traits by the proposed model and the analysis
 Although, the work carried out in this thesis draws a reasonable portrait of how MSA assist personality prediction in AVIs, however it is impossible to cover all aspects regarding MSA and contemporary psychology. The limitations of this study are as follows:
 %
 \begin{enumerate}
-    \item This work collects a dataset, namely AVI dataset, to investigate how MSA can be used for personality prediction in AVIs. The dataset lacks ground truth i.e. labeled emotions for each utterance. Therefore, the emotion distribution is based on COGMEN's performance. To validate the emotion expressed in the interviews, two MSA baselines are utilized to compare their emotion distributions. 
-    \item The AVI dataset lacks ground truth data i.e. personality likelihood of each utterance. For that reason, the proposed personality prediction approach is based on emotions-personality relationship research. The personality prediction method is validated by the use of Big Five personality questionnaire. 
-    \item The AVI dataset has seven speakers from the informatics domain resulting in a total length of approximately 40 minutes. The sample size is to low in order to becoming a benchmark. However, since this qualitative research investigates the personality of informatics students, the sample size is sufficient to describe the phenomenon of interest and answer the RQ's at hand. 
-    \item The demographics of the participants is limited to Norway, meaning that the applicants use English as a second language. This can affect the predicted emotion distribution as people whose mother tongue is English have an apparently wider vocabulary. In addition, it would be interesting to compare the emotions expressed from different countries, as research supports that people across the world reason differently. 
-    \item The response preparation time AVI setting is an element of uncertainty for the data acquisition. As stated in the experiment instructions (Section \ref{sec:video_interview}), candidate can view the interview questions right before the recording happens. However, there exists no mechanism to ensure this principle is held. The facilitators trust that candidates follow the provided instructions. If the participants choose to practise the responses, the only disadvantage is that they will communicate more sophisticated interview answers. 
+    \item This work collects a dataset, namely AVI dataset, to investigate how MSA can be used for personality prediction in AVIs. The dataset lacks ground truth i.e. labeled emotions for each utterance. Therefore, the emotion distribution is based on COGMEN's performance. To validate the emotion expressed in the interviews, two MSA baselines are utilized to compare their emotion distributions. \\
+    \item The AVI dataset lacks ground truth data i.e. personality likelihood of each utterance. For that reason, the proposed personality prediction approach is based on emotions-personality relationship research. The personality prediction method is validated by the use of Big Five personality questionnaire. \\
+    \item The AVI dataset has seven speakers from the informatics domain resulting in a total length of approximately 40 minutes. The sample size is to low in order to becoming a benchmark. However, since this qualitative research investigates the personality of informatics students, the sample size is sufficient to describe the phenomenon of interest and answer the RQ's at hand. \\
+    \item The demographics of the participants is limited to Norway, meaning that the applicants use English as a second language. This can affect the predicted emotion distribution as people whose mother tongue is English have an apparently wider vocabulary. In addition, it would be interesting to compare the emotions expressed from different countries, as research supports that people across the world reason differently. \\
+    \item The response preparation time AVI setting is an element of uncertainty for the data acquisition. As stated in the experiment instructions (Section \ref{sec:video_interview}), candidate can view the interview questions right before the recording happens. However, there exists no mechanism to ensure this principle is held. The facilitators trust that candidates follow the provided instructions. If the participants choose to practise the responses, the only disadvantage is that they will communicate more sophisticated interview answers. \\
+    \item Personality is a multi-dimensional construct. In this work, the emotion distribution is the main factor for predicting the personality traits in AVIs. This work do not take emotional stability or emotional intelligence into account. \\
+    \item  Another popular personality model is the HEXACO (Honesty-humility, Emotionality, eXtraversion, Agreeableness, Conscientiousness, Openness) model. This work fully focuses on utilizing the Big Five model for predictions.
 \end{enumerate}
 %
 

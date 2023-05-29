@@ -1,8 +1,10 @@
 \chapter{Method}
-In comparison to previous conducted studies, we desire to bridge the research gap between emotion and personality detection and see how personality traits can be linked to the emotions applicants express in AVIs. In order to achieve this, we use different MSA models that predicts different emotion classes. We also conduct our own experiment including participants answering an AVI as well as a personality test. 
+\label{chap:method}
+In comparison to the previous conducted studies presented in Chapter \ref{chap:related_work}, this thesis desires to bridge the research gap between emotion and personality detection and understand how personality traits can be linked to the emotions applicants express in AVIs. In order to achieve this, COGMEN is used to recognize emotions expressed in videos. A dataset is also collected involving an experiment where participants answer an AVI as well as a personality test. 
 
 \section{Overall description}
-Figure \ref{fig:research_method} depicts the overall architecture of the research method. It consists of four parts marked in dotted squares in the figure. The first part entails investigating which benchmark dataset that is most appropriate for retrieving emotions from asynchronous video interviews (AVI). The datasets are tested on state-of-the-art MSA model COGMEN for performance evaluation. In the second phase, a pipeline for feature extraction is developed. A method for predicting personality out of emotions expressed in a video i establish in the third part. The basis of this likelihood model are found in previous selected emotion-to-personality studies. Lastly, the fourth part is the data acquisition stage. Participants are invited to pursue a video interview answering four interview questions. In addition, they conduct a personality test as this is used to validate the predicted results.  
+\label{sec:overall_description}
+Figure \ref{fig:research_method} depicts the overall architecture of the research method. It consists of four parts marked in dotted squares in the figure. The first part entails investigating which benchmark dataset that is most appropriate for retrieving emotions from asynchronous video interviews (AVI) (Section \ref{sec:datasets}). The datasets are tested on state-of-the-art MSA model COGMEN for performance evaluation. In the second phase, a pipeline for feature extraction is developed (Section \ref{sec:feature_extraction}). A method for predicting personality out of emotions expressed in a video is established in the third part \ref{sec:personality_prediction_approach}. The basis of this likelihood model are found in previous selected emotion-to-personality studies. Lastly, the fourth part is the data acquisition stage (Section \ref{sec:data_aqusition}). Participants are invited to pursue a video interview answering four interview questions. In addition, they conduct a personality test as this is used to validate the predicted results.  
 %
 \begin{figure}[h]
   \centering
@@ -12,6 +14,7 @@ Figure \ref{fig:research_method} depicts the overall architecture of the researc
 \end{figure}
 %
 \section{Datasets}
+\label{sec:datasets}
 Throughout the years, several benchmark datasets have emerged and enabled fast progress in the MSA research area \cite{COGMEN_joshi-etal-2022-cogmen}.  Table \ref{tab:datasets} lists the datasets we use in this paper. \textit{Modalities} denotes the different modalities of A(coustic), V(isual), and T(ext) \cite{HP_RPP}. \textit{\#v} indicates the total number of video segments and \#s designates the total number of speakers. \textit{Sent} denotes whether or not the dataset contains sentiment annotations and \textit{Emo} denotes whether or not the dataset contains emotion annotations. \textit{TL} is the total length of the dataset. 
 %
 \begin{table}[h]
@@ -30,13 +33,13 @@ Throughout the years, several benchmark datasets have emerged and enabled fast p
 \end{table}
 
 \subsection{MELD dataset}
-Multimodal EmotionLines Dataset (MELD) is an emotion recognition dataset for multi-party conversations \cite{meld_dataset}. It is an extension of the EmotionLines Dataset. The EmotionLines only contains textual data, but MELD includes their corresponding visual and audio counterparts. MELD contains approximately 1400 dialogues and 13 000 utterances from the popular sitcom called Friends. Each utterance is a part of a dialogue and 42\% of the utterances are shorter than five words. The dataset is annotated with emotion and sentiment labels. Each speech in a dialogue is labeled with one of the following emotions: Anger, Disgust, Sadness, Joy, Neutral, Surprise, and Fear. In addition, all utterances are assigned a sentiment (positive, negative, neutral). 
+Multimodal EmotionLines Dataset (MELD) is an emotion recognition dataset for multi-party conversations \cite{meld_dataset}. It is an extension of the EmotionLines Dataset. The EmotionLines only contains textual data, but MELD includes their corresponding visual and audio counterparts. MELD contains approximately 1400 dialogues and 13,000 utterances from the popular sitcom called Friends. Each utterance is a part of a dialogue and 42\% of the utterances are shorter than five words. The dataset is annotated with emotion and sentiment labels. Each speech in a dialogue is labeled with one of the following emotions: Anger, Disgust, Sadness, Joy, Neutral, Surprise, and Fear. In addition, all utterances are assigned a sentiment (positive, negative, neutral). 
 
 \subsection{CMU-MOSEI dataset}
-CMU Multimodal Opinion Sentiment and Emotion Intensity (CMU-MOSEI) is the largest dataset of sentence level sentiment analysis and emotion recognition in online videos \cite{MSA_review2_GANDHI2023424} \cite{cmu-mosei_zadeh2018multimodal}. Videos are collected from YouTube, and the total length of the dataset is over 65 hours. Out of 3228 videos, there are 23 453 annotated data points from 1000 distinct speakers covering 250 subjects. Each video segment contains manual transcription aligned with audio to phoneme level. The sentences are assigned sentiment annotations ranging from [-3, 3] and emotions labels (i.e., Happy, Sad, Neutral, Angry, Excited, Frustrated). CMU-MOSEI includes various topics where the most frequent topics are reviews, debate, and consulting. 
+CMU Multimodal Opinion Sentiment and Emotion Intensity (CMU-MOSEI) is the largest dataset of sentence level sentiment analysis and emotion recognition in online videos \cite{MSA_review2_GANDHI2023424} \cite{cmu-mosei_zadeh2018multimodal}. Videos are collected from YouTube, and the total length of the dataset is over 65 hours. Out of 3228 videos, there are 23,453 annotated data points from 1000 distinct speakers covering 250 subjects. Each video segment contains manual transcription aligned with audio to phoneme level. The sentences are assigned sentiment annotations ranging from [-3, 3] and emotions labels (i.e., Happy, Sad, Neutral, Angry, Excited, Frustrated). CMU-MOSEI includes various topics where the most frequent topics are reviews, debate, and consulting. 
 
 \subsection{IEMOCAP dataset}
-Interactive emotional dyadic motion capture database (IEMOCAP) is a widely used dataset for performing emotion recognition tasks \cite{iemocap_dataset}. It consists of 10 000 segments of audiovisual data, including speech, facial expression and hand gestures, and text in dyadic conversations. IEMOCAP is captured from 10 different actors that perform fictitious conversations to elicit different emotions including Happy, Sad, Angry, Fear, Disgust, and Surprise. In addition, this dataset uses continuous attribute based annotations such as activation, valence and dominance. Both these annotations methods are assigned each utterance in a conversation. The total length of IEMOCAP is just under 12 hours. \\
+Interactive emotional dyadic motion capture database (IEMOCAP) is a widely used dataset for performing emotion recognition tasks \cite{iemocap_dataset}. It consists of 10,000 segments of audiovisual data, including speech, facial expression and hand gestures, and text in dyadic conversations. IEMOCAP is captured from 10 different actors that perform fictitious conversations to elicit different emotions including Happy, Sad, Angry, Fear, Disgust, and Surprise. In addition, this dataset uses continuous attribute based annotations such as activation, valence and dominance. Both these annotations methods are assigned each utterance in a conversation. The total length of IEMOCAP is just under 12 hours. \\
 
 Table \ref{tab:datasets_splitting} shows data splitting for each data set into train, validation and test. For hyperparameter tuning, the Bayesian optimizer was used. Table \ref{tab:datasets_hyperparameter} illustrates the hyperparameter setting on the datasets utilized to train COGMEN. 
 %
@@ -71,7 +74,7 @@ IEMOCAP & 0.1 & 6 & 3 & 1.0e-4\\ \hline
 \label{tab:datasets_hyperparameter}
 \end{table}
 %
-Feature extraction for MELD and IEMOCAP is performed with the established feature extraction pipeline. When it comes to CMU-MOSEI features, we tried to follow the method presented in \cite{cmu-mosei_zadeh2018multimodal}. However, extracting visual features was impossible, since FACET 2.0, a facial expression extraction tool is not open source. Therefore, the authors of COGMEN were contacted in order to receive acoustic, visual, and textual features for CMU-MOSEI in Multi-label classification setting. Results form the performance evaluation is presented in Section \ref{sec:performance_evaluation}.
+Feature extraction for MELD and IEMOCAP is performed with the established feature extraction pipeline. When it comes to CMU-MOSEI features, we tried to follow the method presented in \cite{cmu-mosei_zadeh2018multimodal}. However, extracting visual features was impossible, since FaceNet 2.0, a facial expression extraction tool is not open source. Therefore, the authors of COGMEN were contacted in order to receive acoustic, visual, and textual features for CMU-MOSEI in Multi-label classification setting. Results form the performance evaluation is presented in Section \ref{sec:performance_evaluation}.
 
 \subsection{Evaluation metrics}
 To evaluate COGMEN on the various datasets, widely used evaluation metrics are adopted such as:
@@ -112,6 +115,7 @@ where $d = d_{a} + d_{t} + d_{v}$.
 
 
 \section{Personality prediction approach}
+\label{sec:personality_prediction_approach}
 Using MSA for personality prediction is something new. To the best of my knowledge, there exist no studies that aim to predict human attributes based on emotions expressed in video interviews. Additionally, there do not exist any multimodal datasets with labeled emotions and corresponding personality traits. Therefore, it is difficult to create Deep learning models that perform both emotion recognition and personality prediction. Another problem regarding the two tasks, is that each distinct emotion are linked to several personality traits. The proposed approach takes the emotion distribution in order to forecast the likelihood of the most dominant traits. Because the Big Five describes a continuum of traits, each person is not associated with all traits. Therefore, the model predicts the three strongest traits in an interviewee. The basis of the likelihood model are from the emotions-to-personality relationship studies \cite{personality1-deyoung2007between}, \cite{personality-and-emotion-revelle2009personality}, \cite{extraversion1-komulainen2014effect}, \cite{personality_emotions_link}, \cite{personality2-9210819}, and \cite{emotion_personalty_correlation_Zhao2018}. As shown in Figure \ref{fig:emotion_traits_link}, each personality trait has the following emotion relationship:
 %
 \begin{itemize}
@@ -146,12 +150,32 @@ presented in a descending order with the strongest trait first.
   \label{fig:emotion_personality1}
 \end{figure}
 %
+\newline
+\indent Another sample is depicted in Figure \ref{fig:emotion_personality4}. The participant has a different emotion distribution than the one in sample 1. As can be seen from the figure, the majority of expressed emotions is neutral. Therefore, there is a large likelihood that the strongest trait in applicant 4 is conscientiousness. Moreover, conscientiousness i correlated with agreeableness. Consequently, agreeableness is predicted as the second trait. Finally, the rest of the distributions illustrates a mix of positive and negative affect resulting in the third personality trait being openness. To conclude, participant 4 has the following traits:
+%
+\begin{equation*}
+    [Conscientiousness, Agreeableness, Openness]
+\end{equation*}
+%
+\newpage
+%
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\textwidth]{figures/emotion_distribution_sample4.png}
+  \caption{Emotion distribution of interviewee 4.}
+  \label{fig:emotion_personality4}
+\end{figure}
+%
 
 \section{Data acquisition}
+\label{sec:data_aqusition}
 The data acquisition consists of two parts: One is a video interview where participants record themselves answering interview questions. The other part is to answer a personality questionnaire based on the Big-Five model. These two parts are separate tasks, meaning that the interview and personality test can be taken in any order preferred by the entrant. 
 
 \subsection{Participants}
-We invited participants to pursue the experiment that are at the end of their studies and are in a job seeking position. In that way, they become familiar with how companies conduct their recruitment. Some criteria for participation include candidates being over 18 years old and is proficient in oral English. 
+A total of seven candidates participated in the study. All are men from Norway. Another common denominator is that they are in an informatics study program. The participants are also at the end of their studies and in an job seeking position. 
+
+\subsubsection{Ethical and legal considerations}
+In this study personal data (i.e. AVIs) is collected and thus several ethical and legal aspects should be considered. Before starting collecting interviews, a notification form about the data acquisition was sent to Sikt/NSD for evaluation if the process complied with the General Data Protection Regulation (GDPR). Each participant was provided a participation form as shown in Appendix \ref{apx:participation_form} to give information about the study as well as obtaining consent. The privacy and confidentiality of the interviewees was at the forefront at all times. Data about the participants were de-identified and assigned unique identifiers.  
 
 \subsection{Video interview}
 \label{sec:video_interview}
