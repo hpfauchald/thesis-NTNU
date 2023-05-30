@@ -1,14 +1,14 @@
 \chapter{Background}
 \label{chap:background}
-This chapter provides context to the underlying research. Section \ref{sec:msa_intro} presents multimodal sentiment analysis. Key concepts about Deep learning models utilized in this study are described in Section \ref{sec:dl_models}. COGMEN, which is the state-of-the-art MSA model and widely used in this Master's thesis research, is presented in Section \ref{sec:COGMEN}. Section \ref{sec:emotions} entails basic abstraction of emotion theory. Lastly, Section \ref{sec:big-five_model} presents the Big Five personality model. 
+This chapter provides context to the underlying research. Section \ref{sec:msa_intro} presents MSA. Key concepts about Deep Learning (\acrshort{dl}) models utilized in this study are described in Section \ref{sec:dl_models}. COGMEN, which is the state-of-the-art MSA model and widely used in this Master's thesis research, is presented in Section \ref{sec:COGMEN}. Section \ref{sec:emotions} entails basic abstractions of emotion theory. Lastly, Section \ref{sec:big-five_model} presents the Big Five personality model. 
 
 \section{Multimodal sentiment analysis}
 \label{sec:msa_intro}
-In traditional sentiment analysis, emotions are retrieved from textual information. Multimodal Sentiment Analysis (MSA) aims to generalize the standard text based sentiment analysis to videos where three communicative modalities are present: text, video, and acoustics. This focus on MSA is essential to understand human behavior, because human communication occur through both verbal and nonverbal cues. Therefore, when someone utter a sentence, the meaning of the utterance can drastically shift depending on the nonverbal behaviours. For example, the sentence ''The movie is sick'' is a ambiguous when perceived from a textual perspective because it can be considered both positive and negative. When you combine the utterance with a smile, the sentence will automatically become positive. When the speaker say the same sentence with a frown expression, it will be negatively loaded. A person speaking ''The movie is sick'' in a loudly voice will also be ambiguous. This means that visual features are powerful in describing something more effectively than words and can in particular be used to predict a sentiment with textual data. MSA systems may consist of a combination of two modalities such as text+video, text+speech, speech+video or all three. A system including two modalities is called a bimodal system whereas a system with all three modalities present is called a trimodal system. \\
+In traditional sentiment analysis, emotions are retrieved from textual information. MSA aims to generalize the standard text based sentiment analysis to videos where three communicative modalities are present: text, video, and acoustics. This focus on MSA is essential to understand human behavior, because human communication occur through both verbal and nonverbal cues. Therefore, when someone utters a sentence, the meaning of the utterance can drastically shift depending on the nonverbal behaviours. For example, the sentence \say{The movie is sick.} is ambiguous when perceived from a textual perspective because it can be considered both positive and negative. When the utterance is combined with a smile, the sentence will automatically become positive. When the speaker says the same sentence with a frown expression, it will be negatively loaded. A person speaking \say{The movie is sick.} in a loudly voice will also be ambiguous. This means that visual features are powerful in describing something more effectively than words and can in particular be used to predict a sentiment with textual data. MSA systems may consist of a combination of two modalities such as text+video, text+speech, speech+video, or all three. A system including two modalities is called a bimodal system whereas a system with all three modalities present is called a trimodal system. \\
 
-Modalities come in different forms including audio i.e. vocal words (e.g. utterances, tones, laughs), visual features (e.g. gestures, eye contact), and text (e.g. transcripts produced from audio data) or in the form of electroencephalography (EEG) signals \cite{MSA-review-3-9686504}. The text comprises of polar words where only a subset of the words contribute to the sentiment. It is also divided into word group or phrases, character N-Grams, and phoneme N-Grams in order to understand the context of the given text. Audio features are for example pitch, pauses, intonation, energy distribution over a sentence, and speed of an utterance. The visual indicators include smiles, frowns, gestures, posture, gazes, and eye contact. 
+Modalities come in different forms including audio i.e. vocal words (e.g. utterances, tones, laughs), visual features (e.g. gestures, eye contact), and text (e.g. transcripts produced from audio data), or in the form of electroencephalography (\acrshort{eeg}) signals \cite{MSA-review-3-9686504}. The text comprises of polar words where only a subset of the words contribute to the sentiment. It is also divided into word group or phrases, character N-Grams, and phoneme N-Grams in order to understand the context of the given text. Audio features are for example pitch, pauses, intonation, energy distribution over a sentence, and speed of an utterance. The visual indicators include smiles, frowns, gestures, posture, gazes, and eye contact. \\
 
-Figure \ref{fig:msa_process} illustrates the process of sentiment analysis by fusing several modalities. First, the unstructured data such as a video is taken as input and then pre-processed. In the pre-process phase, data is cleaned and filtered into audio, video, and textual data using various dimensionality reduction techniques. Then, features from audio, visual, and textual data is extracted using different feature methods.  
+Figure \ref{fig:msa_process} illustrates the general process of MSA by fusing several modalities. First, the unstructured data such as a video is taken as input and then pre-processed. In the pre-processing phase, data is cleaned and filtered into audio, video, and textual data using various dimensionality reduction techniques. Then, features from audio, visual, and textual data is extracted using different feature methods.  
 %
 \begin{figure}[h]
   \centering
@@ -17,32 +17,32 @@ Figure \ref{fig:msa_process} illustrates the process of sentiment analysis by fu
   \label{fig:msa_process}
 \end{figure}
 %
-From the feature extraction phase, feature vectors are converted into decision feature vector for multiple modalities. Lastly, a classification algorithm categorizes the corresponding emotion based on the multimodal feature vector. Emotions can be classified as Neutral and Non-neutral. A neutral emotion denotes that no feelings are expressed to any circumstances. The non-neutral category consists of positive and negative emotions. Emotion classification can also be more fine-grained, where positive and negative emotions are divided into emotion classes (i.e. happy, excited, and joy for positive emotions and frustration, sadness, anger, and fear for negative emotions). \\
+From the feature extraction phase, feature vectors are converted into a decision feature vector for multiple modalities. Lastly, a classification algorithm categorizes the corresponding sentiment/emotion based on the multimodal feature vector. Sentiments can be classified as neutral and non-neutral. A neutral emotion denotes that no feelings are expressed to any circumstances. The non-neutral category consists of positive and negative emotions. Emotion classification can also be more fine-grained, where positive and negative emotions are divided into emotion classes (i.e. happy and excited for positive emotions and frustration, sadness, and anger for negative emotions). This thesis is limited to five primary emotions - happy, excited, frustration, sadness, and anger. Additionally, the neutral emotion is important. \\
 
 The most critical activity of MSA is fusion of multiple modalities. Fusion is the process of combining, filtering and extracting required features from the data accumulated from different modalities \cite{MSA-review-3-9686504}. Multimodal fusion is important because this data is used to classify the emotions. Currently, there are ten different multimodal fusion architectures:
 %
 \begin{itemize}
-    \item \textbf{Early fusion-feature level fusion}: Feature level fusion, also called early fusion, merges the extracted features from visual, audio, and textual data into a high dimensional feature vector \cite{MSA_review2_GANDHI2023424}. Then, it is processed in the desired classification algorithm. 
-    \item \textbf{Late fusion-decision level fusion}: In late fusion, the features of each modality is examined and classified independently before the results are fused together to form a final decision vector that predicts the emotion \cite{MSA-review-3-9686504}. 
-    \item \textbf{Hybrid fusion}: Hybrid fusion utilizes both early and late fusion for emotion classification. When using hybrid fusion, the benefits of early and late fusion is exploited while their drawbacks are excluded at the same time.
-    \item \textbf{Model-level fusion}: The characteristics of each modality is examined to find the correlation between them. The model is then developed in accordance with the research domain and given problem requirements \cite{MSA-review-3-9686504}. 
-    \item \textbf{Tensor fusion}: With the use of a tensor fusion layer that explicitly imitates unimodal, bimodal, and trimodal interactions, this method creates a 3-fold Cartesian product. It reduces the quantity of training samples needed \cite{MSA_review2_GANDHI2023424}.
-    \item \textbf{Hierarchical fusion}: As the name indicates, this fusion process fuses the features in an hierarchical order. Here, the model starts to merge the modalities two in two first, and then all three modalities \cite{MSA_review2_GANDHI2023424}.
-    \item \textbf{Bimodal fusion}: In bimodal fusion, two different modality pairs are used as input to deal with the information imbalance between modalities. The two components are trained concurrently so they can duel in a simulated combat \cite{MSA_review2_GANDHI2023424}.
-    \item \textbf{Attention mechanism-based fusion}: Attention mechanism-based fusion aims to incorporate multi-level contextual feature extraction. To do this, the model uses attention-based inter-modality fusion at utterance level since each modality contributes differently to sentiment and emotion classification. Contextual attentive unimodal features are joined two by two to create bimodal features. These two sets of features are then combined to form trimodal feature vectors \cite{MSA_review2_GANDHI2023424}.
-    \item \textbf{Quantum based fusion}: In this method, quantum inference is used to capture the interactions within each utterance (i.e. correlations between different modalities). Additionally, quantum measurement is used to build a strong-weak influence model to find the interactions between consecutive utterances (i.e. how one speaker is influenced by another). Quantum based fusion also utilizes decision-level or early fusion techniques \cite{MSA-review-3-9686504}. 
-    \item \textbf{Word level fusion}: This method investigates the interplay between different modalities in order to establish a superior sentiment tendency. Transformer is used to learn joint representations for utterances and to translate across different modalities \cite{MSA_review2_GANDHI2023424}. 
+    \item \textbf{Early fusion-feature level fusion}: Feature level fusion, also called early fusion, merges the extracted features from visual, audio, and textual data into a high dimensional feature vector \cite{MSA_review2_GANDHI2023424}. Then, it is processed in the desired classification algorithm. \\
+    \item \textbf{Late fusion-decision level fusion}: In late fusion, the features of each modality is examined and classified independently before the results are fused together to form a final decision vector that predicts the emotion \cite{MSA-review-3-9686504}. \\
+    \item \textbf{Hybrid fusion}: Hybrid fusion utilizes both early and late fusion for emotion classification. When using hybrid fusion, the benefits of early and late fusion is exploited while their drawbacks are excluded at the same time \cite{MSA-review-3-9686504}.\\
+    \item \textbf{Model-level fusion}: The characteristics of each modality is examined to find the correlation between them. The model is then developed in accordance with the research domain and given problem requirements \cite{MSA-review-3-9686504}. \\
+    \item \textbf{Tensor fusion}: With the use of a tensor fusion layer that explicitly imitates unimodal, bimodal, and trimodal interactions, this method creates a 3-fold Cartesian product. It reduces the quantity of training samples needed \cite{MSA_review2_GANDHI2023424}. \\
+    \item \textbf{Hierarchical fusion}: As the name indicates, this fusion process fuses the features in an hierarchical order. Here, the model starts to merge the modalities two in two first, and then all three modalities \cite{MSA_review2_GANDHI2023424}. \\
+    \item \textbf{Bimodal fusion}: In bimodal fusion, two different modality pairs are used as input to deal with the information imbalance between modalities. The two components are trained concurrently so they can duel in a simulated combat \cite{MSA_review2_GANDHI2023424}. \\
+    \item \textbf{Attention mechanism-based fusion}: Attention mechanism-based fusion aims to incorporate multi-level contextual feature extraction. To do this, the model uses attention-based inter-modality fusion at utterance level since each modality contributes differently to sentiment and emotion classification. Contextual attentive unimodal features are joined two by two to create bimodal features. These two sets of features are then combined to form trimodal feature vectors \cite{MSA_review2_GANDHI2023424}. \\
+    \item \textbf{Quantum based fusion}: In this method, quantum inference is used to capture the interactions within each utterance (i.e. correlations between different modalities). Additionally, quantum measurement is used to build a strong-weak influence model to find the interactions between consecutive utterances (i.e. how one speaker is influenced by another). Quantum based fusion also utilizes decision-level or early fusion techniques \cite{MSA-review-3-9686504}. \\
+    \item \textbf{Word level fusion}: This method investigates the interplay between different modalities in order to establish a superior sentiment tendency. Transformers are used to learn joint representations for utterances and to translate across different modalities \cite{MSA_review2_GANDHI2023424}. 
 \end{itemize}
 
 \section{Deep learning models}
 \label{sec:dl_models}
-Deep learning models for emotion recognition are utilized in this research. A deep neural network (DNN) comprises an input, output, and a set of hidden layers with multiple nodes or neurons. For each layer $l$ in the network, the output layer is computed as follows:
+Deep Learning models for emotion recognition are utilized in this research. A deep neural network (DNN) comprises an input, output, and a set of hidden layers with multiple nodes or neurons. For each layer $l$ in the network, the output layer is computed as follows:
 %
 \begin{equation*}
     h^{l} = f(W^{l} \cdot h^{l-1} + b^{l}),\tag{1}
 \end{equation*}
 %
-where $W^{l}$ is the weight matrix connecting the $l-1$th to the $l$th layer. $b^{l}$ is the bias for the $l$th layer, and $f$ is the non-linear activation function (e.g. sigmoid, hyperbolic tangent, rectified linear unit (ReLU), etc.). The output of the last layer $y^{L}$ is the output of the last activation function:
+where $W^{l}$ is the weight matrix connecting the $l-1^{th}$ to the $l^{th}$ layer. $b^{l}$ is the bias for the $l^{th}$ layer, and $f$ is the non-linear activation function (e.g. sigmoid, hyperbolic tangent, rectified linear unit (ReLU), etc.). The output of the last layer $y^{L}$ is the output of the last activation function:
 %
 \begin{equation*}
     y^{L} = f(W^{L} \cdot h^{L-1} + b^{L}). \tag{2}
@@ -54,49 +54,49 @@ The linear transformation in each layer can be expressed as a matrix multiplicat
     W^lh^{l-1} = W^l {*} h^{l-1},\tag{3}
 \end{equation*}
 %
-where $*$ denotes matrix multiplication and $h^{l-1}$ is the output of the previous layer. Weights and biases are adjusted usually using backpropagation during training. The backpropagation is an expression for the partial derivative $\frac{\partial C}{\partial w}$ of the cost function C with respect to any weight w (or bias b ) in the network \cite{cross_cultural}. The quadratic cost function can be defined as:
+where $*$ denotes matrix multiplication and $h^{l-1}$ is the output of the previous layer. Weights and biases are adjusted usually using backpropagation during training. The backpropagation is an expression for the partial derivative $\frac{\partial C}{\partial w}$ of the cost function \textit{C} with respect to any weight \textit{w} (or bias \textit{b} ) in the network \cite{cross_cultural}. The quadratic cost function can be defined as:
 %
     \begin{equation*} C = \frac {1}{2n}\sum _{x}^{} \left \|{ y(x) - \alpha ^{L}(x) }\right \|^{2},\tag{4}\end{equation*}
 %
 where $n$ is the total number of training examples, $x$ is the training samples, $y=y(x)$ is the corresponding desired output, $L$ denotes the number of layers in the network, and $\alpha ^{L} = \alpha ^{L}(x)$ is the vector of activations output from the network when $x$ is input.
 
 \subsection{Convolution Neural Networks}
-Convolutional Neural Networks consist of multilayers of fully connected layers. That means, each neuron in the network is connect to all neurons in the next layer. The first layer of the network is called the convolutional layer. It applies a set of filters to the input data. Each filter is a small window of weights that is convolved with the input data to produce a feature map. The operation of 2-dimensional convolution can be represented as:
+Convolutional Neural Networks (\acrshort{cnn}s) consist of multilayers of fully connected layers. That means, each neuron in the network is connect to all neurons in the next layer. The first layer of the network is called the convolutional layer. It applies a set of filters to the input data. Each filter is a small window of weights that is convolved with the input data to produce a feature map. The operation of 2-dimensional convolution can be represented as:
 %
 \begin{equation*}s(i,j)=(I*K)(i,j)=\sum \limits _{l}{\sum \limits _{m}{I(l,m)K(i+l,j+m)}},\tag{5}\end{equation*}
 %
-where I is a two-dimensional input matrix, and K is a two-dimensional kernel matrix. s denotes the resulting feature map after the convolution.
+where \textit{I} is a two-dimensional input matrix, and \textit{K} is a two-dimensional kernel matrix. \textit{s} denotes the resulting feature map after the convolution.
 
 \subsection{Graph Neural Networks}
-A Graph Neural Network is used to operate graph-structured data. A GNN model consists of a graph $G$ with $N$ nodes and an adjacency matrix $A$ that represents the edges between nodes. Each node $i$ has an associated feature vector $xi$ with dimension $D$, and the output of the GNN for node $i$ is denoted as $yi$. A linear transformation is applied to each node's feature vector to produce a hidden state vector $hi$:
+A Graph Neural Network (\acrshort{gnn}) is used to operate graph-structured data. A GNN model consists of a graph $G$ with $N$ nodes and an adjacency matrix $A$ that represents the edges between nodes. Each node $i$ has an associated feature vector $x_{i}$ with dimension $D$, and the output of the GNN for node $i$ is denoted as $y_{i}$. A linear transformation is applied to each node's feature vector to produce a hidden state vector $h_{i}$:
 %
 \begin{equation*}
-    hi = Wxixi,\tag{6}
+    h_{i} = Wx_{i}x_{i},\tag{6}
 \end{equation*}
 %
 where $W$ is the weight matrix for the linear transformation. The hidden state vectors of the neighbouring nodes are aggregated using the following message passing function:
 %
 \begin{equation*}
-    mi = {\sum \limits _{j}} Ajihj,\tag{7}
+    m_{i} = {\sum \limits _{j}} A_{ji}h_{j},\tag{7}
 \end{equation*}
 %
-where $mi$ is the message node j to node i, and $Aj$ is the element of the adjacency matrix representing the edge between node $j$ and $i$. Next, the message is passed through a non-linear activation function $f$:
+where $m_{i}$ is the message node \textit{j} to node \textit{i}, and $A_{j}$ is the element of the adjacency matrix representing the edge between node $j$ and $i$. Next, the message is passed through a non-linear activation function $f$:
 %
 \begin{equation*}
-    mi = f(mi).\tag{8}
+    m_{i} = f(m_{i}).\tag{8}
 \end{equation*}
 %
 The aggregated message for node $i$ is then combined with the hidden state of the node to produce a new hidden state as shown in Equation \ref{eq:new_hidden}.
 %
 \begin{equation*}
     \label{eq:new_hidden}
-    hi' = f(Wxihi + mi) \tag{9}
+    h_{i'} = f(Wx_{i}h_{i} + m_{i}) \tag{9}
 \end{equation*}
 %
 To allow for information propagation between nodes in the graph, this process can be repeated multiple times. Final output of the GNN for each node can be computed by applying another linear transformation to the final hidden state as follows:
 %
 \begin{equation*}
-    yi = W'hi,\tag{10}
+    y_{i} = W'h_{i},\tag{10}
 \end{equation*}
 %
 where $W'$ is the weight matrix for the output transformation. Similar to a DNN, the parameters of the GNN are altered using backpropagation to minimize the loss function.
@@ -109,13 +109,13 @@ The use of transformers have improved the performance of natural language proces
     \text{Attention}(Q,K,V) = \text{softmax}(\frac{QK^{T}}{\sqrt{d_{k}}})V,\tag{11}
 \end{equation*}
 %
-where Q, K, and V are the query, key, and value matrices, respectively. $d_{k}$ denotes the dimensionality of the key vectors. The softmax function is utilized to ensure attention weights sum to one. In the encoder, the input sequence is fed through the self-attention layer and the feed-forward layer. The output of each layer is then passed to the next. Output of the encoder can be represented as follows:
+where \textit{Q}, \textit{K}, and \textit{V} are the query, key, and value matrices, respectively. $d_{k}$ denotes the dimensionality of the key vectors. The \textit{softmax} function is utilized to ensure attention weights sum to one. In the encoder, the input sequence is fed through the self-attention layer and the feed-forward layer. The output of each layer is then passed to the next. Output of the encoder can be represented as follows:
 %
 \begin{equation*}
     \text{Encoder}(x)=\text{LayerNorm}(x + \text{SelfAttention}(x) +\text{FeedForward}(x)),\tag{12}
 \end{equation*}
 %
-where $x$ is the input sequence and the  LayerNorm function is used to normalize the output of each layer. For the decoder, the self-attention layer is modified to include an additional attention mechanism that allows the decoder to attend the encoder's output. This method is referred to as encoder-decoder attention. The decoder output can be expressed mathematically as:
+where $x$ is the input sequence and the \textit{LayerNorm} function is used to normalize the output of each layer. For the decoder, the self-attention layer is modified to include an additional attention mechanism that allows the decoder to attend the encoder's output. This method is referred to as encoder-decoder attention. The decoder output can be expressed mathematically as:
 %
 \begin{equation*}
     \resizebox{0.9\hsize}{!}{$%
@@ -123,11 +123,11 @@ where $x$ is the input sequence and the  LayerNorm function is used to normalize
     $}%
 \end{equation*}
 %
-where $y$ is the input sequence in the decoder and the EncoderDecoderAttention function calculates the attention weights between the decoder input sequence and the encoder output sequence. 
+where $y$ is the input sequence in the decoder and the \textit{EncoderDecoderAttention} function calculates the attention weights between the decoder input sequence and the encoder output sequence. 
 
 \section{COGMEN}
 \label{sec:COGMEN}
-The Contextualized Graph neural network based Multimodal Emotion recognition (COGMEN) model focuses on exploiting contextual information, inter-speaker and intra-speaker relations in a conversation setting \cite{COGMEN_joshi-etal-2022-cogmen}. This means that the framework addresses key concepts to capture emotions in a conversation: It leverages the overall context in the dialogue referred to as the global information. Also, it utilizes the local information stored in the conversations to monitor the emotion expressed by each speaker and create relations between the syllables. In essence, COGMEN is made up of four different modules that are responsible of predicting the emotion of an input utterance. The first module is called Context Extractor. Each input utterance consist of concatenated features from visual, acoustic, and textual modalities. The Context Extractor utilizes a transformer encoder in capturing the global information from each input utterance. With newly established context features, these attributes are fed into the second module, Graph Formation. This unit forms the features to a graph where each statement act as a node of the graph and they are connected using directed relations. Here, there exist two type of relations: relation between utterances by the same speaker (intra-relations) and relations between utterances from different speakers (inter-relations). Next, the third model is Relational GCN and GraphTransformer. The RGCN uses the graph as input to capture intra-speaker and inter-speaker dependencies. Then, the GraphTransformer supplements the RGCN by extracting rich representations from the node features by considering nodes that are connected via edges. Last, the fourth module is the Emotion Classifier. Based on features extracted in the previous step, a linear classifier is utilized to predict the emotion for each utterance.
+The Contextualized Graph neural network based Multimodal Emotion recognition (\acrshort{cogmen}) model focuses on exploiting contextual information, inter-speaker and intra-speaker relations in a conversation setting \cite{COGMEN_joshi-etal-2022-cogmen}. This means that the framework addresses key concepts to capture emotions in a conversation: It leverages the overall context in the dialogue referred to as the global information. Also, it utilizes the local information stored in the conversations to monitor the emotion expressed by each speaker and create relations between the syllables. In essence, COGMEN is made up of four different modules that are responsible of predicting the emotion of an input utterance. The first module is called Context Extractor. Each input utterance consist of concatenated features from visual, acoustic, and textual modalities. The Context Extractor utilizes a transformer encoder in capturing the global information from each input utterance. With newly established context features, these attributes are fed into the second module, Graph Formation. This unit forms the features to a graph where each statement act as a node of the graph and they are connected using directed relations. Here, there exist two type of relations: relation between utterances by the same speaker (intra-relations) and relations between utterances from different speakers (inter-relations). Next, the third model is Relational GCN and GraphTransformer. The RGCN uses the graph as input to capture intra-speaker and inter-speaker dependencies. Then, the GraphTransformer supplements the RGCN by extracting rich representations from the node features by considering nodes that are connected via edges. Last, the fourth module is the Emotion Classifier. Based on features extracted in the previous step, a linear classifier is utilized to predict the emotion for each utterance.
 
 \section{The use of video interviews in e-recruitment}
 As young people are staying in education longer than ever, they become very attractive in the labour market. Everyone desires to get their dream job, and selecting the best candidates that fit well with the job-description is essential to meet the employer's expectations. Like every other aspect with business today, the hiring process depends on speed and accuracy \cite{hiring-process-Sołek-BorowskaWilczewska+2018+25+33}. The job market has become more competitive due to an increasing number of highly relevant candidates competes against a decreasing pool of jobs. Additionally, the selection process is relatively short meaning that the hiring managers have to precisely choose the most suited candidates. The integration of both software and hardware in the HR sector is an emerging trend to keep up with the speed of recruitment and selection. Technologies such as Big Data, Internet of Things, Deep Learning, Machine Learning, and Artificial Intelligence have impact on the HR industry \cite{robotic-process-nawaz2019robotic}. Hiring managers rely on automated systems to help them assess candidates at a fast pace. Some automated systems include  applicant tracking systems \cite{ATS2015} where the system can view your resume and collect keywords to see how well you fit with the job description, surveys \cite{ONEILL2013162} in order to assess your behaviours at the workplace, and automated video interviews \cite{Chen2017_video_interview} in order for the corporation to get to know your communication skills.   \\
